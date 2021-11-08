@@ -23,7 +23,9 @@ namespace DuckDefense
         {
             placeHolder = Content.Load<Texture2D>("SpritePlaceHolder");
             // TODO: Add your initialization logic here
-
+            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.ApplyChanges();
             base.Initialize();
         }
 
