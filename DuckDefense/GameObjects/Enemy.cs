@@ -8,6 +8,10 @@ namespace DuckDefense
 {
     class Enemy : GameObject
     {
+        private int health;
+        private int speed;
+
+
         public override void LoadContent(ContentManager content)
         {
             throw new NotImplementedException();

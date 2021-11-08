@@ -47,8 +47,8 @@ namespace DuckDefense
             {
                 meme.X = -40;
             }
-            
-            
+
+           
 
             // TODO: Add your update logic here
 
