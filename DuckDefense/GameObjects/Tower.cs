@@ -13,6 +13,7 @@ namespace DuckDefense
         protected float speed;
 
 
+
         public override void LoadContent(ContentManager content)
         {
             throw new NotImplementedException();
@@ -22,6 +23,9 @@ namespace DuckDefense
         {
             throw new NotImplementedException();
         }
+
+        //TODO move move funciton to gameobjects
+        
 
         protected void Move(GameTime gameTime)
         {
