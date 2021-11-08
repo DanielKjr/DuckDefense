@@ -77,7 +77,7 @@ namespace DuckDefense
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin();
-           
+           //path hjørner for at se om det var rigtige coordinater, er bare reference og kan/skal bare slettes eventuentuelt 
             _spriteBatch.Draw(background, new Vector2(0,0), Color.White);
             _spriteBatch.Draw(placeHolder, meme, Color.White);
             _spriteBatch.Draw(placeHolder, path[0], Color.White);
@@ -87,8 +87,6 @@ namespace DuckDefense
             _spriteBatch.Draw(placeHolder, path[4], Color.White);
             _spriteBatch.Draw(placeHolder, path[5], Color.White);
             _spriteBatch.End();
-
-
 
             // TODO: Add your drawing code here
 
