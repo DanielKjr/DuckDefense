@@ -9,6 +9,8 @@ namespace DuckDefense
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        private Texture2D placeHolder;
+
         public GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -18,6 +20,7 @@ namespace DuckDefense
 
         protected override void Initialize()
         {
+            placeHolder = Content.Load<Texture2D>("SpritePlaceHolder");
             // TODO: Add your initialization logic here
 
             base.Initialize();
@@ -43,6 +46,12 @@ namespace DuckDefense
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(placeHolder, new Vector2(0, 0), Color.White);
+            _spriteBatch.End();
+
+
 
             // TODO: Add your drawing code here
 
