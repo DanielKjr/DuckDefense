@@ -10,6 +10,7 @@ namespace DuckDefense
         private SpriteBatch _spriteBatch;
 
         private Texture2D placeHolder;
+        private Vector2 meme = new Vector2(0 +1, 0);
 
         public GameWorld()
         {
@@ -38,6 +39,15 @@ namespace DuckDefense
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+
+            meme.X++;
+            if (meme.X == _graphics.PreferredBackBufferWidth)
+            {
+                meme.X = -40;
+            }
+            
+            
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -48,7 +58,7 @@ namespace DuckDefense
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin();
-            _spriteBatch.Draw(placeHolder, new Vector2(0, 0), Color.White);
+            _spriteBatch.Draw(placeHolder, meme, Color.White);
             _spriteBatch.End();
 
 
