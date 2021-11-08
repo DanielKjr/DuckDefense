@@ -10,7 +10,10 @@ namespace DuckDefense
         private SpriteBatch _spriteBatch;
 
         private Texture2D placeHolder;
-        private Vector2 meme = new Vector2(0 +1, 0);
+        private Texture2D background;
+
+        //slet meme når vi begynder at loade ting der betyder noget
+        private Vector2 meme = new Vector2(130,80);
 
         public GameWorld()
         {
@@ -22,7 +25,8 @@ namespace DuckDefense
         protected override void Initialize()
         {
             placeHolder = Content.Load<Texture2D>("SpritePlaceHolder");
-            // TODO: Add your initialization logic here
+            background = Content.Load<Texture2D>("BackGroundPlaceHolder");
+            
             _graphics.PreferredBackBufferHeight = 720;
             _graphics.PreferredBackBufferWidth = 1280;
             _graphics.ApplyChanges();
@@ -41,7 +45,7 @@ namespace DuckDefense
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-
+            //kan bare slettes når vi kommer til at skulle tegne noget andet
             meme.X++;
             if (meme.X == _graphics.PreferredBackBufferWidth)
             {
@@ -60,6 +64,7 @@ namespace DuckDefense
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin();
+            _spriteBatch.Draw(background, new Vector2(0,0), Color.White);
             _spriteBatch.Draw(placeHolder, meme, Color.White);
             _spriteBatch.End();
 
