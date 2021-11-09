@@ -13,25 +13,40 @@ namespace DuckDefense
         private Texture2D placeHolder;
         private Texture2D background;
 
+        private static Vector2 screensize;
+
+        private List<GameObject> gameObjects;
+        private static List<GameObject> newObjects;
+        private static List<GameObject> deleteObjects;
+
+
         //slet meme når vi begynder at loade ting der betyder noget
         private Vector2 meme = new Vector2(45,525);
 
 
        private List<Vector2> path = new List<Vector2>();
 
+        public static Vector2 Screensize { get => screensize; set => screensize = value; }
 
         public GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            screensize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+
         }
 
         protected override void Initialize()
         {
-            placeHolder = Content.Load<Texture2D>("SpritePlaceHolder");
+            placeHolder = Content.Load<Texture2D>("SpritePlaceHolder1");
             background = Content.Load<Texture2D>("BackGroundPlaceHolder");
 
+            gameObjects = new List<GameObject>();
+            gameObjects.Add(new Enemy());
+            
+            //path liste, ved ikke om den skal beholdes her
             path.Add(new Vector2(1260, 80));
             path.Add(new Vector2(140,80));
             path.Add(new Vector2(140, 330));
@@ -49,7 +64,12 @@ namespace DuckDefense
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            foreach (GameObject go in gameObjects)
+            {
+                go.LoadContent(this.Content);
+            }
+
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -57,17 +77,11 @@ namespace DuckDefense
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            //kan bare slettes når vi kommer til at skulle tegne noget andet
-            /*
-            meme.X++;
-            if (meme.X == _graphics.PreferredBackBufferWidth)
+            foreach (GameObject go in gameObjects)
             {
-                meme.X = -40;
+                go.Update(gameTime);
             }
 
-           */
-
-            // TODO: Add your update logic here
 
             base.Update(gameTime);
         }
@@ -76,9 +90,20 @@ namespace DuckDefense
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            
             _spriteBatch.Begin();
-           //path hjørner for at se om det var rigtige coordinater, er bare reference og kan/skal bare slettes eventuentuelt 
+          
             _spriteBatch.Draw(background, new Vector2(0,0), Color.White);
+
+           
+
+            foreach (GameObject go in gameObjects)
+            {
+                go.Draw(_spriteBatch);
+            }
+
+
+            /*
             _spriteBatch.Draw(placeHolder, meme, Color.White);
             _spriteBatch.Draw(placeHolder, path[0], Color.White);
             _spriteBatch.Draw(placeHolder, path[1], Color.White);
@@ -86,9 +111,10 @@ namespace DuckDefense
             _spriteBatch.Draw(placeHolder, path[3], Color.White);
             _spriteBatch.Draw(placeHolder, path[4], Color.White);
             _spriteBatch.Draw(placeHolder, path[5], Color.White);
+            */
             _spriteBatch.End();
 
-            // TODO: Add your drawing code here
+          
 
             base.Draw(gameTime);
         }
