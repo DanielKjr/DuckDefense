@@ -45,8 +45,8 @@ namespace DuckDefense
 
             sprite = sprites[0];
 
-           // this.position = new Vector2(1260,80);
-            this.origin = new Vector2(0,0);
+            this.position = new Vector2(1260,80);
+            this.origin = new Vector2(60,0);
             this.offset.X = (-sprite.Width / 2);
             this.offset.Y = -sprite.Height / 2;
 
@@ -54,7 +54,7 @@ namespace DuckDefense
 
         public override void Update(GameTime gameTime)
         {
-            PathMovement();
+          //  PathMovement();
             Move(gameTime);
             Animate(gameTime);
             
