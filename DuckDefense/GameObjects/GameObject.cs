@@ -7,7 +7,7 @@ namespace DuckDefense
 {
 
 
-    abstract class GameObject
+    public abstract class GameObject
     {
 
         protected Vector2 position;
@@ -22,11 +22,13 @@ namespace DuckDefense
         private float timeElapsed;
         protected float speed;
         private int currentIndex;
+
         private int p = 1;
+        //i dunno
 
         bool opOgNed;
+        //don't ask me
        
-        
 
         protected Color color;
 
@@ -36,9 +38,6 @@ namespace DuckDefense
             set { color = value; }
 
         }
-
-
-
 
 
         public abstract void LoadContent(ContentManager content);
@@ -51,10 +50,7 @@ namespace DuckDefense
 
         public abstract void Update(GameTime gameTime);
 
-        /// <summary>
-        /// Animates by changing the sprites at the speed it is moving by (fps), velocity/speed/fps determines the speed of the animation
-        /// </summary>
-        /// <param name="gameTime"></param>
+  
         protected void Animate(GameTime gameTime)
         {
 
@@ -76,7 +72,7 @@ namespace DuckDefense
         }
 
         /// <summary>
-        /// Movement depending on the speed we determine 
+        /// Follows the path
         /// </summary>
         /// <param name="gameTime"></param>
         protected void Move(GameTime gameTime)

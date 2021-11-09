@@ -12,7 +12,7 @@ namespace DuckDefense
         protected Vector2 walkSpeed;
         protected float speed;
 
-
+        //to be implemented
 
         public override void LoadContent(ContentManager content)
         {
@@ -24,7 +24,7 @@ namespace DuckDefense
             throw new NotImplementedException();
         }
 
-        //TODO move move funciton to gameobjects
+    
         
 
       

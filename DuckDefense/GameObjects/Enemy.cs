@@ -9,29 +9,29 @@ namespace DuckDefense
 {
     class Enemy : GameObject
     {
-        private int health;
+        // private int health;
         // private int speed;
-
+        //to be used
        
 
         public Enemy()
         {
-
-            
             velocity = new Vector2(10, 0);
             speed = 200;
+
+            //fps = animation speed, seizure warning
             fps = 0;
            
             offset = Vector2.Zero;
             color = Color.White;
         }
 
-        /// <summary>
-        /// Loads the position and sprites to go through
-        /// </summary>
-        /// <param name="content"></param>
+      
         public override void LoadContent(ContentManager content)
         {
+
+            if(sprites != null)
+                return;
             sprites = new Texture2D[2];
             sprites[0] = content.Load<Texture2D>("SpritePlaceHolder1");
             sprites[1] = content.Load <Texture2D>("SpritePlaceHolder2");
@@ -54,15 +54,8 @@ namespace DuckDefense
 
         public override void Update(GameTime gameTime)
         {
-
-            
-        
             Move(gameTime);
             Animate(gameTime);
-
-            
-            
-
         }
 
      
