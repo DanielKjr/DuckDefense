@@ -10,7 +10,9 @@ namespace DuckDefense
     class Enemy : GameObject
     {
         private int health;
-       // private int speed;
+        // private int speed;
+
+       
 
         public Enemy()
         {
@@ -18,9 +20,7 @@ namespace DuckDefense
 
             velocity = new Vector2(1, 0);
             speed = 100;
-            fps = 10;
-            this.position.X = 1260;
-            this.position.Y = 80;
+            fps = 1;
            
             offset = Vector2.Zero;
             color = Color.White;
@@ -54,21 +54,15 @@ namespace DuckDefense
 
         public override void Update(GameTime gameTime)
         {
-          //  PathMovement();
+
+            
+        
             Move(gameTime);
             Animate(gameTime);
             
 
         }
 
-        public void PathMovement()
-        {
-            if (position.X != 140)
-            {
-                position.X--;
-            }
-          
-           
-        }
+     
     }
 }
