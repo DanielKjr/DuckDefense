@@ -22,6 +22,11 @@ namespace DuckDefense
         private float timeElapsed;
         protected float speed;
         private int currentIndex;
+        private int p = 1;
+
+        bool opOgNed;
+       
+        
 
         protected Color color;
 
@@ -52,16 +57,21 @@ namespace DuckDefense
         /// <param name="gameTime"></param>
         protected void Animate(GameTime gameTime)
         {
+
             timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             currentIndex = (int)(timeElapsed * fps);
-            sprite = sprites[currentIndex];
+           
+                sprite = sprites[currentIndex];
 
-            if (currentIndex >= sprites.Length -1)
-            {
-                timeElapsed = 0;
-                currentIndex = 0;
-            }
+                if (currentIndex >= sprites.Length - 1)
+                {
+                    timeElapsed = 0;
+                    currentIndex = 0;
+                }
+
+            
+           
 
         }
 
@@ -71,9 +81,35 @@ namespace DuckDefense
         /// <param name="gameTime"></param>
         protected void Move(GameTime gameTime)
         {
+
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            position -= ((velocity * speed) * deltaTime);
-            
+
+
+            Vector2 moveDir = GameWorld.path[p] - position;
+            moveDir.Normalize();
+            position += moveDir * speed * deltaTime;
+
+            if (opOgNed == false)
+            {
+                if (position.X > GameWorld.path[p].X - 5 && position.X < GameWorld.path[p].X + 5)
+                {
+                    p++;
+                    opOgNed = true;
+                }
+
+            }
+            if (opOgNed == true)
+            {
+                if (position.Y > GameWorld.path[p].Y - 5 && position.Y < GameWorld.path[p].Y + 5)
+                {
+                    p++;
+                    opOgNed = false;
+                }
+            }
+
+
+
+
         }
 
 
