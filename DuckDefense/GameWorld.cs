@@ -46,6 +46,7 @@ namespace DuckDefense
             gameObjects = new List<GameObject>();
             gameObjects.Add(new Enemy());
             
+
             //path liste, ved ikke om den skal beholdes her
             path.Add(new Vector2(1260, 80));
             path.Add(new Vector2(140,80));
@@ -77,10 +78,14 @@ namespace DuckDefense
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            
+
             foreach (GameObject go in gameObjects)
             {
                 go.Update(gameTime);
             }
+
+            
 
 
             base.Update(gameTime);

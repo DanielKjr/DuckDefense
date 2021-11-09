@@ -27,11 +27,7 @@ namespace DuckDefense
         //TODO move move funciton to gameobjects
         
 
-        protected void Move(GameTime gameTime)
-        {
-            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            position += ((walkSpeed * speed) * deltaTime);
-        }
+      
 
 
     }
