@@ -10,21 +10,19 @@ namespace DuckDefense
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private Texture2D placeHolder;
+     
         private Texture2D background;
-
         private static Vector2 screensize;
 
         private List<GameObject> gameObjects;
         private static List<GameObject> newObjects;
         private static List<GameObject> deleteObjects;
+        //to be used
 
-
-        //slet meme når vi begynder at loade ting der betyder noget
-        private Vector2 meme = new Vector2(45,525);
-
+        private double timer = 2D;
 
        public static List<Vector2> path = new List<Vector2>();
+
 
         public static Vector2 Screensize { get => screensize; set => screensize = value; }
 
@@ -38,15 +36,22 @@ namespace DuckDefense
 
         }
 
+        private void AddGameObject(GameObject gameObject){
+
+            if(gameObject is null)
+            throw new System.ArgumentNullException($"{nameof(gameObject)} cannot be null, fucker.");
+
+            gameObject.LoadContent(this.Content);
+            gameObjects.Add(gameObject);
+
+        }
+
         protected override void Initialize()
         {
-            placeHolder = Content.Load<Texture2D>("SpritePlaceHolder1");
             background = Content.Load<Texture2D>("BackGroundPlaceHolder");
-
             gameObjects = new List<GameObject>();
-            gameObjects.Add(new Enemy());
-
             
+            AddGameObject(new Enemy());
 
 
             //path liste, ved ikke om den skal beholdes her
@@ -71,8 +76,6 @@ namespace DuckDefense
             {
                 go.LoadContent(this.Content);
             }
-           
-
 
         }
 
@@ -81,14 +84,22 @@ namespace DuckDefense
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            
 
             foreach (GameObject go in gameObjects)
             {
                 go.Update(gameTime);
             }
 
-           
+
+            timer -= gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (timer <= 0)
+            {
+                AddGameObject(new Enemy());
+                timer = 2;
+                
+            }
+            
 
 
             base.Update(gameTime);
@@ -104,27 +115,12 @@ namespace DuckDefense
             _spriteBatch.Draw(background, new Vector2(0,0), Color.White);
            
 
-
-
             foreach (GameObject go in gameObjects)
             {
                 go.Draw(_spriteBatch);
             }
-            foreach (Enemy item in gameObjects)
-            {
-                item.Draw(_spriteBatch);
-            }
+           
 
-
-            /*
-            _spriteBatch.Draw(placeHolder, meme, Color.White);
-            _spriteBatch.Draw(placeHolder, path[0], Color.White);
-            _spriteBatch.Draw(placeHolder, path[1], Color.White);
-            _spriteBatch.Draw(placeHolder, path[2], Color.White);
-            _spriteBatch.Draw(placeHolder, path[3], Color.White);
-            _spriteBatch.Draw(placeHolder, path[4], Color.White);
-            _spriteBatch.Draw(placeHolder, path[5], Color.White);
-            */
             _spriteBatch.End();
 
           
