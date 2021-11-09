@@ -72,7 +72,7 @@ namespace DuckDefense
         protected void Move(GameTime gameTime)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            position += ((velocity * speed) * deltaTime);
+            position -= ((velocity * speed) * deltaTime);
             
         }
 
