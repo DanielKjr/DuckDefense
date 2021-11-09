@@ -24,7 +24,7 @@ namespace DuckDefense
         private Vector2 meme = new Vector2(45,525);
 
 
-       private List<Vector2> path = new List<Vector2>();
+       public static List<Vector2> path = new List<Vector2>();
 
         public static Vector2 Screensize { get => screensize; set => screensize = value; }
 
@@ -45,7 +45,9 @@ namespace DuckDefense
 
             gameObjects = new List<GameObject>();
             gameObjects.Add(new Enemy());
+
             
+
 
             //path liste, ved ikke om den skal beholdes her
             path.Add(new Vector2(1260, 80));
@@ -69,6 +71,7 @@ namespace DuckDefense
             {
                 go.LoadContent(this.Content);
             }
+           
 
 
         }
@@ -85,7 +88,7 @@ namespace DuckDefense
                 go.Update(gameTime);
             }
 
-            
+           
 
 
             base.Update(gameTime);
@@ -99,12 +102,17 @@ namespace DuckDefense
             _spriteBatch.Begin();
           
             _spriteBatch.Draw(background, new Vector2(0,0), Color.White);
-
            
+
+
 
             foreach (GameObject go in gameObjects)
             {
                 go.Draw(_spriteBatch);
+            }
+            foreach (Enemy item in gameObjects)
+            {
+                item.Draw(_spriteBatch);
             }
 
 

@@ -16,11 +16,11 @@ namespace DuckDefense
 
         public Enemy()
         {
-           
 
-            velocity = new Vector2(1, 0);
-            speed = 100;
-            fps = 1;
+            
+            velocity = new Vector2(10, 0);
+            speed = 200;
+            fps = 0;
            
             offset = Vector2.Zero;
             color = Color.White;
@@ -46,7 +46,7 @@ namespace DuckDefense
             sprite = sprites[0];
 
             this.position = new Vector2(1260,80);
-            this.origin = new Vector2(60,0);
+            this.origin = new Vector2(0,0);
             this.offset.X = (-sprite.Width / 2);
             this.offset.Y = -sprite.Height / 2;
 
@@ -59,6 +59,8 @@ namespace DuckDefense
         
             Move(gameTime);
             Animate(gameTime);
+
+            
             
 
         }
