@@ -56,8 +56,8 @@ namespace DuckDefense
 
 
             //path liste, ved ikke om den skal beholdes her
-            path.Add(new Vector2(1260, 120));
-            path.Add(new Vector2(160,120));
+            path.Add(new Vector2(1260, 115));
+            path.Add(new Vector2(160,115));
             path.Add(new Vector2(160, 370));
             path.Add(new Vector2(1170, 370));
             path.Add(new Vector2(1170, 560));
@@ -100,10 +100,6 @@ namespace DuckDefense
                 timer = 2;
                 
             }
-
-            
-
-
 
             base.Update(gameTime);
         }

@@ -20,19 +20,11 @@ namespace DuckDefense
         protected Texture2D sprite;
 
         protected float fps;
-        private float timeElapsed;
         protected float speed;
-        private int currentIndex;
-       
-
-        private int p = 1;
         protected int moveIndex = 1;
-        //i dunno
-
-        bool opOgNed;
-        //don't ask me
-       
-
+        private float timeElapsed;
+        private int currentIndex;
+ 
         protected Color color;
 
         public Color GetColor
@@ -69,27 +61,24 @@ namespace DuckDefense
                     currentIndex = 0;
                 }
 
-            
-           
-
         }
 
 
         /// <summary>
-        /// Follows the path list by calculating if the sum of moveDir, GameWorldPath[moveIndex] - position + 1 er større end 0.1. Hvis ikke så går den videre til næste punkt
+        /// Follows the path list by calculating the absolute value of moveDir, GameWorldPath[moveIndex] - position + 1, if it is greater than 0.1 it moves to next point
+        /// 
+        /// should probably be explained differently before we turn it in
         /// </summary>
         /// <param name="gameTime"></param>
         protected void Move(GameTime gameTime)
         {
-
-
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             Vector2 moveDir = GameWorld.path[moveIndex] - position;
             moveDir.Normalize();
             position += moveDir * speed * deltaTime;
             
-            //hvis den absolutte værdi af moveDir, path - position + 1 er under større end 0.1, og hvis moveindex ikke er 5 (altså slutningen af pathen) så moveindex ++
+            //hvis den absolutte værdi af moveDir, path - position + 1 er større end 0.1, og hvis moveindex ikke er 5 (altså slutningen af pathen så den ikke crasher) så moveindex ++
             if (Math.Abs(Vector2.Dot(moveDir, Vector2.Normalize(GameWorld.path[moveIndex] - position)) +1) < 0.1f)
             {
                 position = GameWorld.path[moveIndex];
@@ -101,28 +90,6 @@ namespace DuckDefense
                 
             }
 
-
-
-            /*
-            if (opOgNed == false)
-            {
-                if (position.X > GameWorld.path[p].X - 5 && position.X < GameWorld.path[p].X + 5)
-                {
-                    p++;
-                    opOgNed = true;
-                }
-
-            }
-            if (opOgNed == true)
-            {
-                if (position.Y > GameWorld.path[p].Y - 5 && position.Y < GameWorld.path[p].Y + 5)
-                {
-                    p++;
-                    opOgNed = false;
-                }
-            }
-
-            */
 
         }
 
