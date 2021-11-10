@@ -17,7 +17,7 @@ namespace DuckDefense
         public Enemy()
         {
             velocity = new Vector2(10, 0);
-            speed = 200;
+            speed = 400;
 
             //fps = animation speed, seizure warning
             fps = 0;
@@ -45,8 +45,8 @@ namespace DuckDefense
 
             sprite = sprites[0];
 
-            this.position = new Vector2(1260,80);
-            this.origin = new Vector2(0,0);
+            this.position = new Vector2(1260,120);
+            this.origin = new Vector2(sprite.Width /2, sprite.Height/2);
             this.offset.X = (-sprite.Width / 2);
             this.offset.Y = -sprite.Height / 2;
 
@@ -54,8 +54,17 @@ namespace DuckDefense
 
         public override void Update(GameTime gameTime)
         {
-            Move(gameTime);
-            Animate(gameTime);
+           
+
+
+                Move(gameTime);
+                Animate(gameTime);
+            
+            
+           
+
+            
+
         }
 
      
