@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace DuckDefense
@@ -22,8 +23,10 @@ namespace DuckDefense
         private float timeElapsed;
         protected float speed;
         private int currentIndex;
+       
 
         private int p = 1;
+        protected int moveIndex = 1;
         //i dunno
 
         bool opOgNed;
@@ -71,20 +74,36 @@ namespace DuckDefense
 
         }
 
+
         /// <summary>
-        /// Follows the path
+        /// Follows the path list by calculating if the sum of moveDir, GameWorldPath[moveIndex] - position + 1 er større end 0.1. Hvis ikke så går den videre til næste punkt
         /// </summary>
         /// <param name="gameTime"></param>
         protected void Move(GameTime gameTime)
         {
 
+
+
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-
-            Vector2 moveDir = GameWorld.path[p] - position;
+            Vector2 moveDir = GameWorld.path[moveIndex] - position;
             moveDir.Normalize();
             position += moveDir * speed * deltaTime;
+            
+            //hvis den absolutte værdi af moveDir, path - position + 1 er under større end 0.1, og hvis moveindex ikke er 5 (altså slutningen af pathen) så moveindex ++
+            if (Math.Abs(Vector2.Dot(moveDir, Vector2.Normalize(GameWorld.path[moveIndex] - position)) +1) < 0.1f)
+            {
+                position = GameWorld.path[moveIndex];
 
+                if (moveIndex < 5)
+                {
+                    moveIndex++;
+                }
+                
+            }
+
+
+
+            /*
             if (opOgNed == false)
             {
                 if (position.X > GameWorld.path[p].X - 5 && position.X < GameWorld.path[p].X + 5)
@@ -103,8 +122,7 @@ namespace DuckDefense
                 }
             }
 
-
-
+            */
 
         }
 

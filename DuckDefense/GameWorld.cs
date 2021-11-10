@@ -19,6 +19,7 @@ namespace DuckDefense
         private static List<GameObject> deleteObjects;
         //to be used
 
+       
         private double timer = 2D;
 
        public static List<Vector2> path = new List<Vector2>();
@@ -55,12 +56,12 @@ namespace DuckDefense
 
 
             //path liste, ved ikke om den skal beholdes her
-            path.Add(new Vector2(1260, 80));
-            path.Add(new Vector2(140,80));
-            path.Add(new Vector2(140, 330));
-            path.Add(new Vector2(1150, 330));
-            path.Add(new Vector2(1150, 525));
-            path.Add(new Vector2(45, 525));
+            path.Add(new Vector2(1260, 120));
+            path.Add(new Vector2(160,120));
+            path.Add(new Vector2(160, 370));
+            path.Add(new Vector2(1170, 370));
+            path.Add(new Vector2(1170, 560));
+            path.Add(new Vector2(45, 560));
 
             _graphics.PreferredBackBufferHeight = 720;
             _graphics.PreferredBackBufferWidth = 1280;
@@ -99,7 +100,9 @@ namespace DuckDefense
                 timer = 2;
                 
             }
+
             
+
 
 
             base.Update(gameTime);
