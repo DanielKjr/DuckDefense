@@ -12,16 +12,19 @@ namespace DuckDefense
         // private int health;
         // private int speed;
         //to be used
-       
+        
+    
 
         public Enemy()
         {
-            velocity = new Vector2(10, 0);
-            speed = 100;
+          
+           
+            
+            speed = 300;
 
             //fps = animation speed, seizure warning
             fps = 0;
-           
+
             offset = Vector2.Zero;
             color = Color.White;
         }
@@ -44,11 +47,10 @@ namespace DuckDefense
             }
 
             sprite = sprites[0];
-
-            this.position = new Vector2(1260,115);
+            this.Position = new Vector2(1260,115);
             this.origin = new Vector2(sprite.Width /2, sprite.Height/2);
-            this.offset.X = (-sprite.Width / 2);
-            this.offset.Y = -sprite.Height / 2;
+            this.offset.X = sprite.Width / 2;
+            this.offset.Y = sprite.Height / 2;
 
         }
 
@@ -58,6 +60,17 @@ namespace DuckDefense
                 Move(gameTime);
                 Animate(gameTime);
             
+        }
+
+        public override void OnCollision(GameObject other)
+        {
+            if (other is Projectile)
+            {
+                
+                GameWorld.Despawn(other);
+                
+                
+            }
         }
 
      

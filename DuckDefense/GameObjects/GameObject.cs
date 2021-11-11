@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 
 namespace DuckDefense
@@ -11,11 +10,10 @@ namespace DuckDefense
     public abstract class GameObject
     {
 
-        protected Vector2 position;
-        protected Vector2 velocity;
+        private Vector2 position;
         protected Vector2 offset;
         protected Vector2 origin;
-
+        protected Vector2 enemy;
         protected Texture2D[] sprites;
         protected Texture2D sprite;
 
@@ -34,6 +32,21 @@ namespace DuckDefense
 
         }
 
+        public Rectangle Collision
+        {
+            get
+            {
+                return new Rectangle(
+                    (int)(position.X + offset.X),
+                    (int)(position.Y + offset.Y),
+                    sprite.Width,
+                    sprite.Height
+                    );
+            }
+        }
+
+        public Vector2 Position { get => position; set => position = value; }
+        public Vector2 Enemy { get => enemy; set => enemy = value; }
 
         public abstract void LoadContent(ContentManager content);
 
@@ -65,9 +78,7 @@ namespace DuckDefense
 
 
         /// <summary>
-        /// Follows the path list by calculating the absolute value of moveDir, GameWorldPath[moveIndex] - position + 1, if it is greater than 0.1 it moves to next point
-        /// 
-        /// should probably be explained differently before we turn it in
+        /// Follows the path by checking the distance between enemy and point on path, then changing to the next point.
         /// </summary>
         /// <param name="gameTime"></param>
         protected void Move(GameTime gameTime)
@@ -77,22 +88,38 @@ namespace DuckDefense
             Vector2 moveDir = GameWorld.path[moveIndex] - position;
             moveDir.Normalize();
             position += moveDir * speed * deltaTime;
-            
-            //hvis den absolutte værdi af moveDir, path - position + 1 er større end 0.1, og hvis moveindex ikke er 5 (altså slutningen af pathen så den ikke crasher) så moveindex ++
-            if (Math.Abs(Vector2.Dot(moveDir, Vector2.Normalize(GameWorld.path[moveIndex] - position)) +1) < 0.1f)
+
+            if (Vector2.Distance(position, GameWorld.path[moveIndex]) < 5f)
             {
+
                 position = GameWorld.path[moveIndex];
 
                 if (moveIndex < 5)
                 {
                     moveIndex++;
                 }
-                
+               
+ 
+
             }
 
 
         }
 
+        public abstract void OnCollision(GameObject other);
+
+        public void CheckCollision(GameObject other)
+        {
+            if (Collision.Intersects(other.Collision))
+            {
+                OnCollision(other);
+
+            }
+        }
+
+
+      
+        
 
 
     }
