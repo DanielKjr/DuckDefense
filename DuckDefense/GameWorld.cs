@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DuckDefense
 {
@@ -10,7 +11,7 @@ namespace DuckDefense
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-     
+
         private Texture2D background;
         private static Vector2 screensize;
 
@@ -21,6 +22,8 @@ namespace DuckDefense
 
        
         private double timer = 2D;
+
+        bool canFire = true;
 
        public static List<Vector2> path = new List<Vector2>();
 
@@ -44,6 +47,7 @@ namespace DuckDefense
 
             gameObject.LoadContent(this.Content);
             gameObjects.Add(gameObject);
+            
 
         }
 
@@ -51,9 +55,16 @@ namespace DuckDefense
         {
             background = Content.Load<Texture2D>("BackGroundPlaceHolder");
             gameObjects = new List<GameObject>();
-            
-            AddGameObject(new Enemy());
+            newObjects = new List<GameObject>();
+            deleteObjects = new List<GameObject>();
 
+            
+            
+            
+           
+
+            AddGameObject(new Enemy());
+            AddGameObject(new Tower());
 
             //path liste, ved ikke om den skal beholdes her
             path.Add(new Vector2(1260, 115));
@@ -73,6 +84,7 @@ namespace DuckDefense
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+
             foreach (GameObject go in gameObjects)
             {
                 go.LoadContent(this.Content);
@@ -86,10 +98,27 @@ namespace DuckDefense
                 Exit();
 
 
+            gameObjects.AddRange(newObjects);
+            newObjects.Clear();
+
             foreach (GameObject go in gameObjects)
             {
                 go.Update(gameTime);
+
+                foreach (GameObject other in gameObjects)
+                {
+                    go.CheckCollision(other);
+                }
+
             }
+
+
+            foreach (GameObject go in deleteObjects)
+            {
+                gameObjects.Remove(go);
+            }
+            deleteObjects.Clear();
+
 
 
             timer -= gameTime.ElapsedGameTime.TotalSeconds;
@@ -99,7 +128,37 @@ namespace DuckDefense
                 AddGameObject(new Enemy());
                 timer = 2;
                 
+                
             }
+
+
+            
+
+                foreach (Tower tower in gameObjects.OfType<Tower>())
+                {
+                    foreach (Enemy enemy in gameObjects.OfType<Enemy>())
+                    {
+
+                        if (Vector2.Distance(tower.Position, enemy.Position) < tower.Range)
+                        {
+                            tower.Target = enemy;
+                           
+                            break;
+
+                        }
+
+                    }
+
+
+                }
+
+           
+
+           
+
+
+
+
 
             base.Update(gameTime);
         }
@@ -112,8 +171,8 @@ namespace DuckDefense
             _spriteBatch.Begin();
           
             _spriteBatch.Draw(background, new Vector2(0,0), Color.White);
-           
 
+            
             foreach (GameObject go in gameObjects)
             {
                 go.Draw(_spriteBatch);
@@ -126,5 +185,21 @@ namespace DuckDefense
 
             base.Draw(gameTime);
         }
+
+        public static void Instantiate(GameObject go)
+        {
+           
+                newObjects.Add(go);
+            
+            
+        }
+
+        public static void Despawn(GameObject go)
+        {
+
+            deleteObjects.Add(go);
+        }
+
+
     }
 }
