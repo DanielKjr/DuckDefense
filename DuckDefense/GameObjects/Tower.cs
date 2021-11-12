@@ -17,7 +17,7 @@ namespace DuckDefense
         Enemy target;
 
 
-        double timer = 0.5D;
+        double timer = 0.02D;
         public int Range { get => range; set => range = value; }
         internal Enemy Target { get => target; set => target = value; }
 
