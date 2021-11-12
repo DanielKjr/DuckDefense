@@ -13,10 +13,10 @@ namespace DuckDefense
         public Projectile(Texture2D sprite, Vector2 position, Vector2 enemyPosition)
         {
             this.sprite = sprite;
-            this.Position = position;
+            Position = position;
             this.enemyPosition = enemyPosition;
-            this.speed = 450;
-            this.color = Color.White;
+            speed = 500;
+            color = Color.White;
            
 
         }
@@ -31,7 +31,8 @@ namespace DuckDefense
         {
             if (other is Enemy)
             {
-                GameWorld.Despawn(other );
+                GameWorld.Despawn(other);
+                GameWorld.Despawn(this);
                 
             }
         }
@@ -46,10 +47,6 @@ namespace DuckDefense
             Vector2 shootDir = enemyPosition - Position;
             shootDir.Normalize();
             Position += shootDir * speed * deltaTime;
-
-          
-
-
 
 
         }

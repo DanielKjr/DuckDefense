@@ -15,13 +15,14 @@ namespace DuckDefense
         private int range = 200;
 
         Enemy target;
+        Enemy oldTarget;
 
         double timer = 1D;
         public int Range { get => range; set => range = value; }
         internal Enemy Target { get => target; set => target = value; }
 
 
-        //to be implemented
+    
 
 
         public Tower()
@@ -30,11 +31,16 @@ namespace DuckDefense
            
             speed = 0;
             offset = Vector2.Zero;
-            this.color = Color.White;
-            this.origin = Vector2.Zero;
+            color = Color.White;
+            origin = Vector2.Zero;
            
             
         }
+        public Tower(float attackSpeed, int damage) 
+        {
+        
+        }
+
 
         public override void LoadContent(ContentManager content)
         {
@@ -47,10 +53,13 @@ namespace DuckDefense
         public override void Update(GameTime gameTime)
         {
             timer -= gameTime.ElapsedGameTime.TotalSeconds;
+
             if (timer <= 0)
             {
-                Shoot();
-                timer = 1;
+                    Shoot();
+               
+                    timer = 1;
+           
             }
                
 
@@ -69,13 +78,16 @@ namespace DuckDefense
 
         public void Shoot()
         {
+            
 
-            if (target != null)
+            if (target != null && target != oldTarget)
             {
                 GameWorld.Instantiate(new Projectile(sprite, Position, target.Position));
+
                
             }
-            
+            oldTarget = target;
+
         }
 
 
