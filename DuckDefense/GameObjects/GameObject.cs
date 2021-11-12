@@ -17,6 +17,8 @@ namespace DuckDefense
         protected Texture2D[] sprites;
         protected Texture2D sprite;
 
+
+
         protected float fps;
         protected float speed;
         protected int moveIndex = 1;
@@ -47,6 +49,8 @@ namespace DuckDefense
 
         public Vector2 Position { get => position; set => position = value; }
         public Vector2 Enemy { get => enemy; set => enemy = value; }
+
+
 
         public abstract void LoadContent(ContentManager content);
 

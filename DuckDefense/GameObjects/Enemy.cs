@@ -17,15 +17,14 @@ namespace DuckDefense
 
         public Enemy()
         {
-          
-           
-            
+
+      
             speed = 300;
 
             //fps = animation speed, seizure warning
             fps = 0;
-
-            offset = Vector2.Zero;
+            this.Position = new Vector2(1260, 115);
+            this.origin = Vector2.Zero;
             color = Color.White;
         }
 
@@ -47,11 +46,12 @@ namespace DuckDefense
             }
 
             sprite = sprites[0];
-            this.Position = new Vector2(1260,115);
-            this.origin = new Vector2(sprite.Width /2, sprite.Height/2);
-            this.offset.X = sprite.Width / 2;
-            this.offset.Y = sprite.Height / 2;
-
+            /*
+             * det her sætter hit boksen nede under ham
+           this.origin = new Vector2(sprite.Width /2, sprite.Height/2);
+           this.offset.X = sprite.Width / 2;
+           this.offset.Y = sprite.Height / 2;
+            */
         }
 
         public override void Update(GameTime gameTime)
@@ -66,10 +66,11 @@ namespace DuckDefense
         {
             if (other is Projectile)
             {
-                
+               
                 GameWorld.Despawn(other);
-                
-                
+              
+
+
             }
         }
 
