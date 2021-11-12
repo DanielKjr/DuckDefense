@@ -15,9 +15,9 @@ namespace DuckDefense
         private int range = 200;
 
         Enemy target;
-        Enemy oldTarget;
 
-        double timer = 1D;
+
+        double timer = 0.5D;
         public int Range { get => range; set => range = value; }
         internal Enemy Target { get => target; set => target = value; }
 
@@ -57,8 +57,8 @@ namespace DuckDefense
             if (timer <= 0)
             {
                     Shoot();
-               
-                    timer = 1;
+                
+                    timer = 0.5;
            
             }
                
@@ -80,14 +80,16 @@ namespace DuckDefense
         {
             
 
-            if (target != null && target != oldTarget)
+            if (target != null && target.IsAlive)
             {
-                GameWorld.Instantiate(new Projectile(sprite, Position, target.Position));
-
                
+                GameWorld.Instantiate(new Projectile(sprite, Position, target.Position));
+                
+                
             }
-            oldTarget = target;
 
+
+            
         }
 
 

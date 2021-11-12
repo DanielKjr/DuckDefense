@@ -9,16 +9,16 @@ namespace DuckDefense
 {
     class Enemy : GameObject
     {
-        // private int health;
+
         // private int speed;
         //to be used
-        
-    
+
+        private int health;
 
         public Enemy()
         {
-
-      
+            IsAlive = true;
+            health = 3;
             speed = 300;
 
             //fps = animation speed, seizure warning
@@ -27,6 +27,8 @@ namespace DuckDefense
             this.origin = Vector2.Zero;
             color = Color.White;
         }
+
+    
 
       
         public override void LoadContent(ContentManager content)
@@ -66,8 +68,16 @@ namespace DuckDefense
         {
             if (other is Projectile)
             {
+                
+                
+                if (Health <= 0)
+                {
+                    
+                   GameWorld.Despawn(other);
+                    GameWorld.Despawn(this);
+                    IsAlive = false;
+                }
                
-                GameWorld.Despawn(other);
               
 
 
