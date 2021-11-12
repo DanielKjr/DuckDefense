@@ -206,6 +206,8 @@ namespace DuckDefense
             }
         }
 
+ 
+
         /// <summary>
         /// Instantiates new objects by adding them to newObjects list.
         /// </summary>

@@ -24,7 +24,10 @@ namespace DuckDefense
         protected int moveIndex = 1;
         private float timeElapsed;
         private int currentIndex;
- 
+
+        protected int health;
+        private bool isAlive;
+
         protected Color color;
 
         public Color GetColor
@@ -49,8 +52,8 @@ namespace DuckDefense
 
         public Vector2 Position { get => position; set => position = value; }
         public Vector2 Enemy { get => enemy; set => enemy = value; }
-
-
+        public int Health { get => health; set => health = value; }
+        public bool IsAlive { get => isAlive; set => isAlive = value; }
 
         public abstract void LoadContent(ContentManager content);
 

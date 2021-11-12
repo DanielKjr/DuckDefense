@@ -15,7 +15,7 @@ namespace DuckDefense
             this.sprite = sprite;
             Position = position;
             this.enemyPosition = enemyPosition;
-            speed = 500;
+            speed = 700;
             color = Color.White;
            
 
@@ -31,8 +31,10 @@ namespace DuckDefense
         {
             if (other is Enemy)
             {
-                GameWorld.Despawn(other);
-                GameWorld.Despawn(this);
+
+                //    GameWorld.Despawn(other);
+               
+               GameWorld.Despawn(this);
                 
             }
         }
