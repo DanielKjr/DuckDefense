@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace DuckDefense
 {
@@ -14,6 +15,7 @@ namespace DuckDefense
 
         private Texture2D background;
         private Texture2D collisionTexture;
+        private SpriteFont waveCountDown;
         private static Vector2 screensize;
 
         private List<GameObject> gameObjects;
@@ -22,7 +24,14 @@ namespace DuckDefense
 
 
 
-        private double timer = 2D;
+        private double spawnTimer = 1.2D;
+        private double waveTimer = 12D;
+        private double maxSpawnTimer = 1.2D;
+
+        int spawnedEnemies = 0;
+        int maxSpawnedEnemies = 20;
+
+        bool waveInProgress = false;
 
         public static List<Vector2> path = new List<Vector2>();
 
@@ -56,7 +65,7 @@ namespace DuckDefense
 
 
 
-            AddGameObject(new Enemy());
+            
             AddGameObject(new Tower());
 
             //path liste, ved ikke om den skal beholdes her
@@ -78,6 +87,8 @@ namespace DuckDefense
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             collisionTexture = Content.Load<Texture2D>("CollisionTexture ");
 
+            waveCountDown = Content.Load<SpriteFont>("waveCountDown");
+
             foreach (GameObject go in gameObjects)
             {
                 go.LoadContent(this.Content);
@@ -94,19 +105,17 @@ namespace DuckDefense
             SpawnEnemies(gameTime);
             TowerTarget();
 
+
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-
             _spriteBatch.Begin();
-
             _spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
-
-
+         
             foreach (GameObject go in gameObjects)
             {
                 go.Draw(_spriteBatch);
@@ -114,6 +123,16 @@ namespace DuckDefense
                 DrawCollisionBox(go);
 #endif
 
+            }
+            if (waveInProgress == false)
+            {
+                string waveTimerSec = Math.Floor(waveTimer).ToString();
+                // sårn der ikke er en masse decimaler efter
+                string wavePauseMessage = $"You Will Feel The GIRTH In {waveTimerSec} Seconds";
+                //det beskeden vi bruger når der ikke er en wave igang
+                Vector2 sizeOfPauseMessage = waveCountDown.MeasureString(wavePauseMessage);
+                // vi bruger en vector2 her til at måle størrelsen på vores string "wavePauseMessage" når den er skrevet med fonten "waveCountDown"
+                _spriteBatch.DrawString(waveCountDown, wavePauseMessage, new Vector2(200, 300), Color.DarkOrange);
             }
 
 
@@ -175,15 +194,45 @@ namespace DuckDefense
         /// <param name="gameTime"></param>
         public void SpawnEnemies(GameTime gameTime)
         {
-            timer -= gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (timer <= 0)
+            if (waveInProgress == false) 
             {
-                AddGameObject(new Enemy());
-                timer = 2;
+                waveTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+                if (waveTimer <= 0)
+                {
+                    waveInProgress = true;
+                    waveTimer = 6;
+                }
+            }
+            if (waveInProgress == true)
+            {
+                spawnTimer -= gameTime.ElapsedGameTime.TotalSeconds;
 
+                if (spawnTimer <= 0)
+                {
+                    AddGameObject(new Enemy());
+                    spawnTimer = maxSpawnTimer;
+                    spawnedEnemies++;
+
+                }
+                if (spawnedEnemies == maxSpawnedEnemies)
+                {
+                    waveInProgress = false;
+
+                    if (maxSpawnTimer >= 0.5)
+                    {
+                        maxSpawnTimer -= 0.12;
+                    }
+                    if (maxSpawnedEnemies >= 50)
+                    {
+                        maxSpawnedEnemies += 5;
+                    }
+                    spawnedEnemies = 0;
+                }
 
             }
+          
+         
 
         }
 
@@ -206,7 +255,7 @@ namespace DuckDefense
             }
         }
 
- 
+
 
         /// <summary>
         /// Instantiates new objects by adding them to newObjects list.

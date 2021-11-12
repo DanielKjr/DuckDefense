@@ -8,14 +8,14 @@ namespace DuckDefense
     class Projectile : GameObject
     {
         private Vector2 enemyPosition;
+        private int damage = 2;
 
-
-        public Projectile(Texture2D sprite, Vector2 position, Vector2 enemyPosition)
+        public Projectile(Texture2D sprite, Vector2 position, Vector2 enemyPosition, int damage = 3)
         {
             this.sprite = sprite;
             Position = position;
             this.enemyPosition = enemyPosition;
-            speed = 700;
+            speed = 1100;
             color = Color.White;
            
 
@@ -29,19 +29,20 @@ namespace DuckDefense
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Enemy)
+            if (other is Enemy enemy)
             {
-
-                //    GameWorld.Despawn(other);
-               
-               GameWorld.Despawn(this);
-                
+               enemy.Damage(damage);
+               GameWorld.Despawn(this);   
             }
         }
 
         public override void Update(GameTime gameTime)
         {
             ProjectileShoot(gameTime, enemyPosition);
+            if (Vector2.Distance(Position, enemyPosition) < 10)
+            {
+                GameWorld.Despawn(this);
+            }
         }
         public void ProjectileShoot(GameTime gameTime, Vector2 enemyPosition)
         {

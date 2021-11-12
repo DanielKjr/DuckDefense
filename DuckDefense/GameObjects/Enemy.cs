@@ -13,12 +13,14 @@ namespace DuckDefense
         // private int speed;
         //to be used
 
-        private int health;
+
+
+
 
         public Enemy()
         {
             IsAlive = true;
-            health = 3;
+            Health = 3;
             speed = 300;
 
             //fps = animation speed, seizure warning
@@ -28,23 +30,31 @@ namespace DuckDefense
             color = Color.White;
         }
 
-    
+        public void Damage(int damage)
+        {
+            Health -= damage;
+            if (Health <= 0)
+            {
+                GameWorld.Despawn(this);
+                IsAlive = false;
+            }
+        }
 
-      
+
         public override void LoadContent(ContentManager content)
         {
 
-            if(sprites != null)
+            if (sprites != null)
                 return;
             sprites = new Texture2D[2];
             sprites[0] = content.Load<Texture2D>("SpritePlaceHolder1");
-            sprites[1] = content.Load <Texture2D>("SpritePlaceHolder2");
+            sprites[1] = content.Load<Texture2D>("SpritePlaceHolder2");
 
-            
+
 
             for (int i = 0; i < sprites.Length; i++)
             {
-                sprites[i] = content.Load<Texture2D>("SpritePlaceHolder"+(i +1));
+                sprites[i] = content.Load<Texture2D>("SpritePlaceHolder" + (i + 1));
             }
 
             sprite = sprites[0];
@@ -59,31 +69,17 @@ namespace DuckDefense
         public override void Update(GameTime gameTime)
         {
 
-                Move(gameTime);
-                Animate(gameTime);
+            Move(gameTime);
+            Animate(gameTime);
+
             
         }
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Projectile)
-            {
-                
-                
-                if (Health <= 0)
-                {
-                    
-                   GameWorld.Despawn(other);
-                    GameWorld.Despawn(this);
-                    IsAlive = false;
-                }
-               
-              
 
-
-            }
         }
 
-     
+
     }
 }
