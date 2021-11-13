@@ -24,6 +24,7 @@ namespace DuckDefense
         protected int moveIndex = 1;
         private float timeElapsed;
         private int currentIndex;
+        protected int currency = 5;
 
         protected int health;
         private bool isAlive;
@@ -54,6 +55,7 @@ namespace DuckDefense
         public Vector2 Enemy { get => enemy; set => enemy = value; }
         public int Health { get => health; set => health = value; }
         public bool IsAlive { get => isAlive; set => isAlive = value; }
+        public int Currency { get => currency; set => currency = value; }
 
         public abstract void LoadContent(ContentManager content);
 
@@ -109,6 +111,7 @@ namespace DuckDefense
  
 
             }
+            
 
 
         }
@@ -120,6 +123,7 @@ namespace DuckDefense
             if (Collision.Intersects(other.Collision))
             {
                 OnCollision(other);
+                
 
             }
         }

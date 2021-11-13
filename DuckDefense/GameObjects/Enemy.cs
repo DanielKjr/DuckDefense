@@ -36,9 +36,12 @@ namespace DuckDefense
             if (Health <= 0)
             {
                 GameWorld.Despawn(this);
+
                 IsAlive = false;
             }
         }
+
+
 
 
         public override void LoadContent(ContentManager content)

@@ -10,7 +10,7 @@ namespace DuckDefense
         private Vector2 enemyPosition;
         private int damage = 2;
 
-        public Projectile(Texture2D sprite, Vector2 position, Vector2 enemyPosition, int damage = 3)
+        public Projectile(Texture2D sprite, Vector2 position, Vector2 enemyPosition)
         {
             this.sprite = sprite;
             Position = position;
