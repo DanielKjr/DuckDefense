@@ -5,6 +5,7 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework.Input;
 
 namespace DuckDefense
 {
@@ -13,88 +14,92 @@ namespace DuckDefense
 
         protected float attackSpeed;
         private int range = 200;
-
         Enemy target;
 
-
-        double timer = 0.02D;
+        double timer = 2d;
         public int Range { get => range; set => range = value; }
         internal Enemy Target { get => target; set => target = value; }
 
 
-    
-
-
-        public Tower()
+        public Tower(Vector2 mousePosition, float attackSpeed)
         {
-            
-           
-            speed = 0;
+            //hvis man ikke laver this.attackSpeed så prøver den at tage sprites fra sprites[] listen af en eller anden grund 
+            this.attackSpeed = attackSpeed;
             offset = Vector2.Zero;
-            color = Color.White;
+            color = Color.Pink;
             origin = Vector2.Zero;
-           
-            
+            Position = mousePosition;
+
         }
-        public Tower(float attackSpeed, int damage) 
+        public Tower(float attackSpeed, int damage)
         {
-        
+
+        }
+        public Tower(Vector2 mousePosition)
+        {
+            this.attackSpeed = 1f;
+            offset = Vector2.Zero;
+            color = Color.Blue;
+            origin = Vector2.Zero;
+            Position = mousePosition;
+            
         }
 
 
         public override void LoadContent(ContentManager content)
         {
-            
-            sprite = content.Load<Texture2D>("SpritePlaceHolder1");
 
-            this.Position = new Vector2(800, 10);
+            sprite = content.Load<Texture2D>("SpritePlaceHolder1");
+            
+
         }
 
         public override void Update(GameTime gameTime)
         {
-            timer -= gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (timer <= 0)
-            {
-                    Shoot();
-                
-                    timer = 0.5;
+            TowerUpdater(gameTime);
            
-            }
-               
 
         }
 
-    
+        public void TowerUpdater(GameTime gameTime)
+        {
+
+            timer -= gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (timer <= 0 )
+            {
+                Shoot();
+                timer = 2- attackSpeed;
+
+            }
+
+
+        }
+
         public override void OnCollision(GameObject other)
         {
 
             if (other is Enemy)
             {
-              
+
             }
         }
 
 
         public void Shoot()
         {
-            
 
             if (target != null && target.IsAlive)
             {
-               
                 GameWorld.Instantiate(new Projectile(sprite, Position, target.Position));
-                
-                
+
             }
 
-
-            
         }
 
 
-        
-      
+
+
 
 
     }
