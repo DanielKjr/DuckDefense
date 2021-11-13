@@ -31,10 +31,7 @@ namespace DuckDefense
             Position = mousePosition;
 
         }
-        public Tower(float attackSpeed, int damage)
-        {
 
-        }
         public Tower(Vector2 mousePosition)
         {
             this.attackSpeed = 1f;

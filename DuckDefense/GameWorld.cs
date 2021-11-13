@@ -37,9 +37,13 @@ namespace DuckDefense
         int maxSpawnedEnemies = 20;
         bool waveInProgress = false;
 
+        private int playerBalance = 5;
+        
+
         public static List<Vector2> path = new List<Vector2>();
 
         public static Vector2 Screensize { get => screensize; set => screensize = value; }
+
 
         //   public static Vector2 Screensize { get => screensize; set => screensize = value; }
 
@@ -99,11 +103,13 @@ namespace DuckDefense
                 Exit();
             mState = Mouse.GetState();
             mousePosition = new Vector2(mState.X - 22, mState.Y - 20);
-           
+
             UpdateGameObjects(gameTime);         
             SpawnEnemies(gameTime);
             AddTower();
             TowerTarget();
+
+      
 
             base.Update(gameTime);
         }
@@ -114,6 +120,10 @@ namespace DuckDefense
             _spriteBatch.Begin();
             _spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
             _spriteBatch.Draw(towerPlaceSprite, new Vector2(mState.Position.X - 22, mState.Position.Y - 20), Color.Red);
+
+            string currency = playerBalance.ToString();
+            _spriteBatch.DrawString(waveCountDown, currency, new Vector2(0, 0), Color.Yellow);
+            
 
 #if DEBUG
             //den er her kun for at se at der ikke er towers vi ikke kan se
@@ -185,6 +195,11 @@ namespace DuckDefense
 
             }
 
+            foreach (Enemy enemy in deleteObjects.OfType<Enemy>())
+            {
+                playerBalance += 2;
+            }
+
             foreach (GameObject go in deleteObjects)
             {
                 gameObjects.Remove(go);
@@ -192,6 +207,7 @@ namespace DuckDefense
             deleteObjects.Clear();
         }
 
+    
         /// <summary>
         /// Spawns enemies
         /// </summary>
@@ -266,11 +282,12 @@ namespace DuckDefense
         public void AddTower()
         {//TODO gør så at man ikke kan placere towers oven på hinanden
 
-            if (mState.LeftButton == ButtonState.Pressed && mLeftReleased == true)
+            if (mState.LeftButton == ButtonState.Pressed && mLeftReleased == true && playerBalance >= 5)
             {                
                 currentTowers++;
                 mLeftReleased = false;
                 AddGameObject(new Tower(mousePosition));
+                playerBalance -= 5;
 
             }
             
@@ -279,11 +296,12 @@ namespace DuckDefense
                 mLeftReleased = true;
             }
 
-            if (mState.RightButton == ButtonState.Pressed && mRightReleased == true)
+            if (mState.RightButton == ButtonState.Pressed && mRightReleased == true && playerBalance >= 10)
             {              
                 currentTowers++;
                 mRightReleased = false;
                 AddGameObject(new Tower(mousePosition, 1.5f));
+                playerBalance -= 10;
             }
             if (mState.RightButton == ButtonState.Released)
             {
@@ -312,6 +330,8 @@ namespace DuckDefense
         {
 
             deleteObjects.Add(go);
+            
+            
         }
 
 
