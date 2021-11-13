@@ -12,7 +12,7 @@ namespace DuckDefense
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-
+        private Texture2D towerPlaceSprite;
         private Texture2D background;
         private Texture2D collisionTexture;
         private SpriteFont waveCountDown;
@@ -22,21 +22,24 @@ namespace DuckDefense
         private static List<GameObject> newObjects;
         private static List<GameObject> deleteObjects;
 
+        int currentTowers = 1;
+        MouseState mState;
+        Vector2 mousePosition;
+        private bool mRightReleased = true;
+        private bool mLeftReleased = true;
+        
 
 
         private double spawnTimer = 1.2D;
-        private double waveTimer = 12D;
+        private double waveTimer = 0.5D;
         private double maxSpawnTimer = 1.2D;
-
         int spawnedEnemies = 0;
         int maxSpawnedEnemies = 20;
-
         bool waveInProgress = false;
 
         public static List<Vector2> path = new List<Vector2>();
 
         public static Vector2 Screensize { get => screensize; set => screensize = value; }
-
 
         //   public static Vector2 Screensize { get => screensize; set => screensize = value; }
 
@@ -59,14 +62,8 @@ namespace DuckDefense
             gameObjects = new List<GameObject>();
             newObjects = new List<GameObject>();
             deleteObjects = new List<GameObject>();
-
-
-
-
-
-
-            
-            AddGameObject(new Tower());
+            gameObjects.Add(new Tower(new Vector2(800, 10)));
+            // AddGameObject(new Tower(0.5f));
 
             //path liste, ved ikke om den skal beholdes her
             path.Add(new Vector2(1260, 115));
@@ -86,7 +83,7 @@ namespace DuckDefense
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             collisionTexture = Content.Load<Texture2D>("CollisionTexture ");
-
+            towerPlaceSprite = Content.Load<Texture2D>("SpritePlaceHolder1");
             waveCountDown = Content.Load<SpriteFont>("waveCountDown");
 
             foreach (GameObject go in gameObjects)
@@ -100,12 +97,13 @@ namespace DuckDefense
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            UpdateGameObjects(gameTime);
+            mState = Mouse.GetState();
+            mousePosition = new Vector2(mState.X - 22, mState.Y - 20);
+           
+            UpdateGameObjects(gameTime);         
             SpawnEnemies(gameTime);
+            AddTower();
             TowerTarget();
-
-
 
             base.Update(gameTime);
         }
@@ -115,7 +113,13 @@ namespace DuckDefense
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
             _spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
-         
+            _spriteBatch.Draw(towerPlaceSprite, new Vector2(mState.Position.X - 22, mState.Position.Y - 20), Color.Red);
+
+#if DEBUG
+            //den er her kun for at se at der ikke er towers vi ikke kan se
+            string currentPlacedTowers = currentTowers.ToString();
+            _spriteBatch.DrawString(waveCountDown, currentPlacedTowers, new Vector2(500, 500), Color.Red);
+#endif
             foreach (GameObject go in gameObjects)
             {
                 go.Draw(_spriteBatch);
@@ -195,7 +199,7 @@ namespace DuckDefense
         public void SpawnEnemies(GameTime gameTime)
         {
 
-            if (waveInProgress == false) 
+            if (waveInProgress == false)
             {
                 waveTimer -= gameTime.ElapsedGameTime.TotalSeconds;
                 if (waveTimer <= 0)
@@ -231,8 +235,8 @@ namespace DuckDefense
                 }
 
             }
-          
-         
+
+
 
         }
 
@@ -255,6 +259,38 @@ namespace DuckDefense
             }
         }
 
+
+        /// <summary>
+        /// Adds a tower on Left or Right mouseclick
+        /// </summary>
+        public void AddTower()
+        {//TODO gør så at man ikke kan placere towers oven på hinanden
+
+            if (mState.LeftButton == ButtonState.Pressed && mLeftReleased == true)
+            {                
+                currentTowers++;
+                mLeftReleased = false;
+                AddGameObject(new Tower(mousePosition));
+
+            }
+            
+            if (mState.LeftButton == ButtonState.Released)
+            {
+                mLeftReleased = true;
+            }
+
+            if (mState.RightButton == ButtonState.Pressed && mRightReleased == true)
+            {              
+                currentTowers++;
+                mRightReleased = false;
+                AddGameObject(new Tower(mousePosition, 1.5f));
+            }
+            if (mState.RightButton == ButtonState.Released)
+            {
+                mRightReleased = true;
+            }
+
+        }
 
 
         /// <summary>
