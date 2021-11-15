@@ -68,6 +68,10 @@ namespace DuckDefense
         public abstract void Update(GameTime gameTime);
 
   
+        /// <summary>
+        /// Animates the object by alternating between sprites from the Texture2D list in the class
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected void Animate(GameTime gameTime)
         {
 
@@ -116,8 +120,17 @@ namespace DuckDefense
 
         }
 
+        /// <summary>
+        /// OnCollision determines what happens when 2 objects collide, all the objects can collide but not all of them should
+        /// so it is determined in the sub class what happens 
+        /// </summary>
+        /// <param name="other"></param>
         public abstract void OnCollision(GameObject other);
 
+        /// <summary>
+        /// Checks if the Rectangle "Collision" on the different objects intersects and what happens or when which collide is determined in the sub-classes
+        /// </summary>
+        /// <param name="other"></param>
         public void CheckCollision(GameObject other)
         {
             if (Collision.Intersects(other.Collision))

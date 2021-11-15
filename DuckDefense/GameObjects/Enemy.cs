@@ -10,12 +10,6 @@ namespace DuckDefense
     class Enemy : GameObject
     {
 
-        // private int speed;
-        //to be used
-
-
-
-
 
         public Enemy()
         {
@@ -24,12 +18,16 @@ namespace DuckDefense
             speed = 300;
 
             //fps = animation speed, seizure warning
-            fps = 0;
-            this.Position = new Vector2(1260, 115);
+            fps = 7;
+            this.Position = GameWorld.path[0];
             this.origin = Vector2.Zero;
             color = Color.White;
         }
 
+        /// <summary>
+        /// Deals damage to the enemy
+        /// </summary>
+        /// <param name="damage"></param>
         public void Damage(int damage)
         {
             Health -= damage;
@@ -49,24 +47,20 @@ namespace DuckDefense
 
             if (sprites != null)
                 return;
-            sprites = new Texture2D[2];
-            sprites[0] = content.Load<Texture2D>("SpritePlaceHolder1");
-            sprites[1] = content.Load<Texture2D>("SpritePlaceHolder2");
+            sprites = new Texture2D[3];
+            sprites[0] = content.Load<Texture2D>("EnemyDuck1");
+            sprites[1] = content.Load<Texture2D>("EnemyDuck2");
+            sprites[2] = content.Load<Texture2D>("EnemyDuck3");
 
 
 
             for (int i = 0; i < sprites.Length; i++)
             {
-                sprites[i] = content.Load<Texture2D>("SpritePlaceHolder" + (i + 1));
+                sprites[i] = content.Load<Texture2D>("EnemyDuck" + (i +1));
             }
 
             sprite = sprites[0];
-            /*
-             * det her sætter hit boksen nede under ham
-           this.origin = new Vector2(sprite.Width /2, sprite.Height/2);
-           this.offset.X = sprite.Width / 2;
-           this.offset.Y = sprite.Height / 2;
-            */
+
         }
 
         public override void Update(GameTime gameTime)
