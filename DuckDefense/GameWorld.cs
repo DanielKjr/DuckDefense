@@ -130,10 +130,8 @@ namespace DuckDefense
             _spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
             _spriteBatch.Draw(towerPlaceSprite, new Vector2(mState.Position.X - 22, mState.Position.Y - 20), Color.Red);
 
-            string currency = playerBalance.ToString();
-            _spriteBatch.DrawString(waveCountDown, currency, new Vector2(0, 0), Color.Yellow);
-            string health = playerHealth.ToString();
-            _spriteBatch.DrawString(waveCountDown, health, new Vector2(0, 675), Color.Red);
+
+            InterfaceInfo(gameTime);
 
             if (playerIsAlive)
             {
@@ -182,6 +180,17 @@ namespace DuckDefense
             base.Draw(gameTime);
         }
 
+        /// <summary>
+        /// Shows player balance and health on screen
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public void InterfaceInfo(GameTime gameTime)
+        {
+            string currency = playerBalance.ToString();
+            _spriteBatch.DrawString(waveCountDown, currency, new Vector2(0, 0), Color.Yellow);
+            string health = playerHealth.ToString();
+            _spriteBatch.DrawString(waveCountDown, health, new Vector2(0, 675), Color.Red);
+        }
         /// <summary>
         /// Adds the GameObject to the gameObject list, in order to spawn new enemies their textures must be loaded first, otherwise resulting in a ArgumentNullException
         /// </summary>
