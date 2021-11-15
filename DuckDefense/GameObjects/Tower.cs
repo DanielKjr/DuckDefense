@@ -11,12 +11,15 @@ namespace DuckDefense
 {
     class Tower : GameObject
     {
+        private Texture2D cookieProjectile;
+        Enemy target;
+
 
         protected float attackSpeed;
         private int range = 200;
-        Enemy target;
+        double timer = 2;
 
-        double timer = 2d;
+
         public int Range { get => range; set => range = value; }
         internal Enemy Target { get => target; set => target = value; }
 
@@ -47,6 +50,7 @@ namespace DuckDefense
         {
 
             sprite = content.Load<Texture2D>("SpritePlaceHolder1");
+            cookieProjectile = content.Load<Texture2D>("Cookie");
             
 
         }
@@ -58,6 +62,10 @@ namespace DuckDefense
 
         }
 
+        /// <summary>
+        /// Updates the towers timer depending on their attack speed to determine their fire rate
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void TowerUpdater(GameTime gameTime)
         {
 
@@ -82,13 +90,15 @@ namespace DuckDefense
             }
         }
 
-
+        /// <summary>
+        /// Shoots/instantiates a Projectile if there is a target, and the target is alive
+        /// </summary>
         public void Shoot()
         {
 
             if (target != null && target.IsAlive)
             {
-                GameWorld.Instantiate(new Projectile(sprite, Position, target.Position));
+                GameWorld.Instantiate(new Projectile(cookieProjectile, Position, target.Position));
 
             }
 

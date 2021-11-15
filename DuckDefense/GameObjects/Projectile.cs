@@ -10,12 +10,13 @@ namespace DuckDefense
         private Vector2 enemyPosition;
         private int damage = 2;
 
+
         public Projectile(Texture2D sprite, Vector2 position, Vector2 enemyPosition)
         {
             this.sprite = sprite;
             Position = position;
             this.enemyPosition = enemyPosition;
-            speed = 1200;
+            speed = 1000;
             color = Color.White;
            
 
@@ -26,6 +27,7 @@ namespace DuckDefense
         {
            
         }
+
 
         public override void OnCollision(GameObject other)
         {
@@ -44,6 +46,12 @@ namespace DuckDefense
                 GameWorld.Despawn(this);
             }
         }
+
+        /// <summary>
+        /// Targeting function
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="enemyPosition"></param>
         public void ProjectileShoot(GameTime gameTime, Vector2 enemyPosition)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
