@@ -131,7 +131,7 @@ namespace DuckDefense
             _spriteBatch.Draw(towerPlaceSprite, new Vector2(mState.Position.X - 22, mState.Position.Y - 20), Color.Red);
 
 
-            InterfaceInfo(gameTime);
+            InterfaceInfo();
 
             if (playerIsAlive)
             {
@@ -184,7 +184,7 @@ namespace DuckDefense
         /// Shows player balance and health on screen
         /// </summary>
         /// <param name="gameTime"></param>
-        public void InterfaceInfo(GameTime gameTime)
+        public void InterfaceInfo()
         {
             string currency = playerBalance.ToString();
             _spriteBatch.DrawString(waveCountDown, currency, new Vector2(0, 0), Color.Yellow);
@@ -319,6 +319,8 @@ namespace DuckDefense
         /// </summary>
         public void AddTower()
         {//TODO gør så at man ikke kan placere towers oven på hinanden
+
+            
 
             if (mState.LeftButton == ButtonState.Pressed && mLeftReleased == true && playerBalance >= 5)
             {                

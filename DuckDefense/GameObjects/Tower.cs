@@ -14,7 +14,6 @@ namespace DuckDefense
         private Texture2D cookieProjectile;
         Enemy target;
 
-
         protected float attackSpeed;
         private int range = 200;
         double timer = 2;
@@ -29,7 +28,7 @@ namespace DuckDefense
             //hvis man ikke laver this.attackSpeed så prøver den at tage sprites fra sprites[] listen af en eller anden grund 
             this.attackSpeed = attackSpeed;
             offset = Vector2.Zero;
-            color = Color.Pink;
+            color = Color.Cyan;
             origin = Vector2.Zero;
             Position = mousePosition;
 
@@ -39,9 +38,11 @@ namespace DuckDefense
         {
             this.attackSpeed = 1f;
             offset = Vector2.Zero;
-            color = Color.Blue;
+            color = Color.White;
             origin = Vector2.Zero;
             Position = mousePosition;
+
+
             
         }
 
@@ -49,7 +50,9 @@ namespace DuckDefense
         public override void LoadContent(ContentManager content)
         {
 
-            sprite = content.Load<Texture2D>("SpritePlaceHolder1");
+
+
+           sprite = content.Load<Texture2D>("Tower2");
             cookieProjectile = content.Load<Texture2D>("Cookie");
             
 
