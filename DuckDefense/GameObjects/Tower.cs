@@ -17,11 +17,11 @@ namespace DuckDefense
         protected float attackSpeed;
         private int range = 200;
         private double timer = 2;
-
+        private int radius = 10;
 
         public int Range { get => range; set => range = value; }
         internal Enemy Target { get => target; set => target = value; }
-
+        public int Radius { get => radius; set => radius = value; }
 
         public Tower(Vector2 mousePosition, float attackSpeed)
         {
@@ -31,7 +31,7 @@ namespace DuckDefense
             color = Color.Cyan;
             origin = Vector2.Zero;
             Position = mousePosition;
-
+            radius = 10;
         }
 
         public Tower(Vector2 mousePosition)
@@ -41,7 +41,7 @@ namespace DuckDefense
             color = Color.White;
             origin = Vector2.Zero;
             Position = mousePosition;
-
+            radius = 10;
 
             
         }
