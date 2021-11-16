@@ -15,7 +15,7 @@ namespace DuckDefense
         Enemy target;
 
         protected float attackSpeed;
-        private int range = 200;
+        private int range = 220;
         private double timer = 2;
         private int radius = 10;
 
