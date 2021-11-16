@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,17 +23,19 @@ namespace DuckDefense
         private static List<GameObject> newObjects;
         private static List<GameObject> deleteObjects;
 
-       
+
         MouseState mState;
         Vector2 mousePosition;
         private bool mRightReleased = true;
         private bool mLeftReleased = true;
-        
+
 
 
         private double spawnTimer = 1.2D;
         private double waveTimer = 0.5D;
         private double maxSpawnTimer = 1.2D;
+        private double waveCount = -0.1;
+        private double gameScore = 0;
         int spawnedEnemies = 0;
         int maxSpawnedEnemies = 20;
         bool waveInProgress = false;
@@ -114,10 +117,10 @@ namespace DuckDefense
                 AddTower();
                 TowerTarget();
                 PlayerDamage();
-
+                
 
             }
-
+   
 
 
             base.Update(gameTime);
@@ -136,39 +139,27 @@ namespace DuckDefense
             if (playerIsAlive)
             {
 
-#if DEBUG
-                //den er her kun for at se at der ikke er towers vi ikke kan se
-                string currentPlacedTowers = currentTowers.ToString();
-                _spriteBatch.DrawString(waveCountDown, currentPlacedTowers, new Vector2(500, 500), Color.Red);
-
-
-
-
-#endif
                 foreach (GameObject go in gameObjects)
                 {
                     go.Draw(_spriteBatch);
 #if DEBUG
                     DrawCollisionBox(go);
+                    //den er her kun for at se at der ikke er towers vi ikke kan se
+                    string currentPlacedTowers = currentTowers.ToString();
+                    _spriteBatch.DrawString(waveCountDown, currentPlacedTowers, new Vector2(500, 500), Color.Red);
 #endif
 
                 }
-                if (waveInProgress == false)
-                {
-                    string waveTimerSec = Math.Floor(waveTimer).ToString();
-                    // sårn der ikke er en masse decimaler efter
-                    string wavePauseMessage = $"You Will Feel The GIRTH In {waveTimerSec} Seconds";
-                    //det beskeden vi bruger når der ikke er en wave igang
-                    Vector2 sizeOfPauseMessage = waveCountDown.MeasureString(wavePauseMessage);
-                    // vi bruger en vector2 her til at måle størrelsen på vores string "wavePauseMessage" når den er skrevet med fonten "waveCountDown"
-                    _spriteBatch.DrawString(waveCountDown, wavePauseMessage, new Vector2(200, 300), Color.DarkOrange);
-                }
+             
 
             }
             if (!playerIsAlive)
             {
                 string loseScreen = "YOU LOSE";
-                _spriteBatch.DrawString(waveCountDown, loseScreen, new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2), Color.Red);
+                _spriteBatch.DrawString(waveCountDown, loseScreen, new Vector2(_graphics.PreferredBackBufferWidth / 2 -80, _graphics.PreferredBackBufferHeight / 2), Color.Red);
+
+               
+                
             }
 
 
@@ -187,9 +178,23 @@ namespace DuckDefense
         public void InterfaceInfo()
         {
             string currency = playerBalance.ToString();
-            _spriteBatch.DrawString(waveCountDown, currency, new Vector2(0, 0), Color.Yellow);
+            _spriteBatch.DrawString(waveCountDown, currency, new Vector2(0, 50), Color.Yellow);
             string health = playerHealth.ToString();
             _spriteBatch.DrawString(waveCountDown, health, new Vector2(0, 675), Color.Red);
+            string currentgameScore = Math.Floor(gameScore).ToString();
+            string currentGameScoreDisplay = $"Score {currentgameScore}";
+            _spriteBatch.DrawString(waveCountDown, currentGameScoreDisplay, new Vector2(0, 0), Color.White);
+            if (waveInProgress == false)
+            {
+                string waveTimerSec = Math.Floor(waveTimer).ToString();
+                // sårn der ikke er en masse decimaler efter
+                string wavePauseMessage = $"You Will Feel The GIRTH In {waveTimerSec} Seconds";
+                //det beskeden vi bruger når der ikke er en wave igang
+                Vector2 sizeOfPauseMessage = waveCountDown.MeasureString(wavePauseMessage);
+                // vi bruger en vector2 her til at måle størrelsen på vores string "wavePauseMessage" når den er skrevet med fonten "waveCountDown"
+                _spriteBatch.DrawString(waveCountDown, wavePauseMessage, new Vector2(200, 300), Color.DarkOrange);
+            }
+
         }
         /// <summary>
         /// Adds the GameObject to the gameObject list, in order to spawn new enemies their textures must be loaded first, otherwise resulting in a ArgumentNullException
@@ -232,6 +237,8 @@ namespace DuckDefense
             foreach (Enemy enemy in deleteObjects.OfType<Enemy>())
             {
                 playerBalance += 1;
+                double gameScoreIncrease = 10 * (1 + waveCount);
+                gameScore += gameScoreIncrease;
             }
 
             foreach (GameObject go in deleteObjects)
@@ -290,6 +297,8 @@ namespace DuckDefense
 
         }
 
+
+
         /// <summary>
         /// Tower can target an enemy if the distance between tower and enemy is less than the towers range.
         /// </summary>
@@ -313,15 +322,14 @@ namespace DuckDefense
             }
         }
 
+        
 
         /// <summary>
         /// Adds a tower on Left or Right mouseclick
         /// </summary>
         public void AddTower()
         {//TODO gør så at man ikke kan placere towers oven på hinanden
-
-            
-
+           
             if (mState.LeftButton == ButtonState.Pressed && mLeftReleased == true && playerBalance >= 5)
             {                
                 currentTowers++;
@@ -390,6 +398,9 @@ namespace DuckDefense
             
             
         }
+        
+
+
 
 
         /// <summary>

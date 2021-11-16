@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -9,7 +10,7 @@ namespace DuckDefense
 {
     class Enemy : GameObject
     {
-
+        private SoundEffectInstance quack;
 
         public Enemy()
         {
@@ -44,6 +45,7 @@ namespace DuckDefense
 
         public override void LoadContent(ContentManager content)
         {
+            
 
             if (sprites != null)
                 return;
@@ -52,6 +54,7 @@ namespace DuckDefense
             sprites[1] = content.Load<Texture2D>("EnemyDuck2");
             sprites[2] = content.Load<Texture2D>("EnemyDuck3");
 
+          
 
 
             for (int i = 0; i < sprites.Length; i++)

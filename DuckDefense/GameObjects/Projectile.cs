@@ -16,7 +16,7 @@ namespace DuckDefense
             this.sprite = sprite;
             Position = position;
             this.enemyPosition = enemyPosition;
-            speed = 1000;
+            speed = 1200;
             color = Color.White;
            
 
