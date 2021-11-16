@@ -16,7 +16,7 @@ namespace DuckDefense
 
         protected float attackSpeed;
         private int range = 200;
-        double timer = 2;
+        private double timer = 2;
 
 
         public int Range { get => range; set => range = value; }
@@ -36,7 +36,7 @@ namespace DuckDefense
 
         public Tower(Vector2 mousePosition)
         {
-            this.attackSpeed = 1f;
+            attackSpeed = 1f;
             offset = Vector2.Zero;
             color = Color.White;
             origin = Vector2.Zero;
@@ -50,12 +50,9 @@ namespace DuckDefense
         public override void LoadContent(ContentManager content)
         {
 
-
-
-           sprite = content.Load<Texture2D>("Tower2");
+            sprite = content.Load<Texture2D>("Tower2");
             cookieProjectile = content.Load<Texture2D>("Cookie");
             
-
         }
 
         public override void Update(GameTime gameTime)
@@ -87,9 +84,9 @@ namespace DuckDefense
         public override void OnCollision(GameObject other)
         {
 
-            if (other is Enemy)
+            if (other is Tower)
             {
-
+                
             }
         }
 
