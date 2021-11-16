@@ -43,7 +43,7 @@ namespace DuckDefense
         private int playerBalance = 5;
         private int playerHealth = 10;
         private bool playerIsAlive = true;
-
+        private bool towerBlocked = false;
         int currentTowers = 1;
 
 
@@ -331,12 +331,31 @@ namespace DuckDefense
         {//TODO gør så at man ikke kan placere towers oven på hinanden
            
             if (mState.LeftButton == ButtonState.Pressed && mLeftReleased == true && playerBalance >= 5)
-            {                
-                currentTowers++;
-                mLeftReleased = false;
-                AddGameObject(new Tower(mousePosition));
-                playerBalance -= 5;
+            {
+                AddGameObject(new TowerPlatform(mousePosition));
+                towerBlocked = false;
+                foreach (TowerPlatform towerplat in gameObjects.OfType<TowerPlatform>())
+                {
+                    foreach (Tower tower in gameObjects.OfType<Tower>())
+                    {
+                        int sum = towerplat.Radius + tower.Radius;
+                        if (Vector2.Distance(tower.Position, towerplat.Position) < sum)
+                        {
+                            towerBlocked = true;
+                        }
+                    }
+                    Despawn(towerplat);
+                }
+                
+                if (towerBlocked == false)
+                {
+                    currentTowers++;
+                    mLeftReleased = false;
+                    AddGameObject(new Tower(mousePosition));
+                    playerBalance -= 5;
+                }
 
+                towerBlocked = false;
             }
             
             if (mState.LeftButton == ButtonState.Released)
@@ -345,7 +364,23 @@ namespace DuckDefense
             }
 
             if (mState.RightButton == ButtonState.Pressed && mRightReleased == true && playerBalance >= 10)
-            {              
+            {
+                AddGameObject(new TowerPlatform(mousePosition));
+                towerBlocked = false;
+                foreach (TowerPlatform towerplat in gameObjects.OfType<TowerPlatform>())
+                {
+                    foreach (Tower tower in gameObjects.OfType<Tower>())
+                    {
+                        int sum = towerplat.Radius + tower.Radius;
+                        if (Vector2.Distance(tower.Position, towerplat.Position) < sum)
+                        {
+                            towerBlocked = true;
+                        }
+                    }
+                    Despawn(towerplat);
+                }
+
+                if (towerBlocked == false)
                 currentTowers++;
                 mRightReleased = false;
                 AddGameObject(new Tower(mousePosition, 1.5f));
