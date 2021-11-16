@@ -49,6 +49,7 @@ namespace DuckDefense
 
         public static List<Vector2> path = new List<Vector2>();
 
+
      //   public static Vector2 Screensize { get => screensize; set => screensize = value; }
 
 
@@ -73,7 +74,6 @@ namespace DuckDefense
             newObjects = new List<GameObject>();
             deleteObjects = new List<GameObject>();
             gameObjects.Add(new Tower(new Vector2(800, 10)));
-
 
             //path liste, ved ikke om den skal beholdes her
             path.Add(new Vector2(1260, 80));
@@ -132,7 +132,10 @@ namespace DuckDefense
             _spriteBatch.Begin();
             _spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
             _spriteBatch.Draw(towerPlaceSprite, new Vector2(mState.Position.X - 22, mState.Position.Y - 20), Color.Red);
-
+            _spriteBatch.Draw(towerPlaceSprite, new Vector2(mState.Position.X - 220, mState.Position.Y - 220), Color.Red);
+            _spriteBatch.Draw(towerPlaceSprite, new Vector2(mState.Position.X + 220, mState.Position.Y - 220), Color.Red);
+            _spriteBatch.Draw(towerPlaceSprite, new Vector2(mState.Position.X - 220, mState.Position.Y + 220), Color.Red);
+            _spriteBatch.Draw(towerPlaceSprite, new Vector2(mState.Position.X + 220, mState.Position.Y + 220), Color.Red);
 
             InterfaceInfo();
 
@@ -188,11 +191,11 @@ namespace DuckDefense
             {
                 string waveTimerSec = Math.Floor(waveTimer).ToString();
                 // sårn der ikke er en masse decimaler efter
-                string wavePauseMessage = $"You Will Feel The GIRTH In {waveTimerSec} Seconds";
+                string wavePauseMessage = $"You hear a faint quacking noise.. {waveTimerSec}";
                 //det beskeden vi bruger når der ikke er en wave igang
                 Vector2 sizeOfPauseMessage = waveCountDown.MeasureString(wavePauseMessage);
                 // vi bruger en vector2 her til at måle størrelsen på vores string "wavePauseMessage" når den er skrevet med fonten "waveCountDown"
-                _spriteBatch.DrawString(waveCountDown, wavePauseMessage, new Vector2(200, 300), Color.DarkOrange);
+                _spriteBatch.DrawString(waveCountDown, wavePauseMessage, new Vector2(200, 300), Color.Black);
             }
 
         }
@@ -309,15 +312,17 @@ namespace DuckDefense
                 foreach (Enemy enemy in gameObjects.OfType<Enemy>())
                 {
 
-                    if (Vector2.Distance(tower.Position, enemy.Position) < tower.Range)
+                    if (Vector2.Distance(tower.Position, enemy.Position) < tower.Range && IsActive)
                     {
                         tower.Target = enemy;
                         break;
                     }
+                    
                     else
                     {
                         tower.Target = null;
                     }
+                    
                 }
             }
         }

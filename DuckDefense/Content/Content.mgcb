@@ -85,6 +85,12 @@
 /processorParam:TextureFormat=Color
 /build:EnemyDuck3.png
 
+#begin Quack.mp4
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Quack.mp4
+
 #begin SpritePlaceHolder1.png
 /importer:TextureImporter
 /processor:TextureProcessor

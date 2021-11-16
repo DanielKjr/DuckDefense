@@ -15,8 +15,9 @@ namespace DuckDefense
         {
             this.sprite = sprite;
             Position = position;
-            this.enemyPosition = enemyPosition;
-            speed = 1200;
+            this.enemyPosition = new Vector2(enemyPosition.X + 20 , enemyPosition.Y + 20);
+
+            speed = 1400;
             color = Color.White;
            
 

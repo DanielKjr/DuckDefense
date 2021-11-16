@@ -34,8 +34,9 @@ namespace DuckDefense
             Health -= damage;
             if (Health <= 0)
             {
+                 quack.Play();
                 GameWorld.Despawn(this);
-
+               
                 IsAlive = false;
             }
         }
@@ -45,7 +46,7 @@ namespace DuckDefense
 
         public override void LoadContent(ContentManager content)
         {
-            
+            quack = content.Load<SoundEffect>("Quack").CreateInstance();
 
             if (sprites != null)
                 return;
