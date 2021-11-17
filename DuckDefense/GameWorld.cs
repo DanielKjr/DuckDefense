@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using Microsoft.Xna.Framework.Media;
 
 namespace DuckDefense
 {
@@ -17,7 +18,8 @@ namespace DuckDefense
         private Texture2D background;
         private Texture2D collisionTexture;
         private SpriteFont waveCountDown;
-     //   private static Vector2 screensize;
+        private SpriteFont font;
+        private Song backgroundMusic;
 
         private List<GameObject> gameObjects;
         private static List<GameObject> newObjects;
@@ -50,7 +52,7 @@ namespace DuckDefense
         public static List<Vector2> path = new List<Vector2>();
 
 
-     //   public static Vector2 Screensize { get => screensize; set => screensize = value; }
+
 
 
 
@@ -61,7 +63,7 @@ namespace DuckDefense
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-          //  Screensize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+
 
         }
 
@@ -69,19 +71,20 @@ namespace DuckDefense
 
         protected override void Initialize()
         {
-            background = Content.Load<Texture2D>("BackGroundPlaceHolder");
+            background = Content.Load<Texture2D>("BackGround");
             gameObjects = new List<GameObject>();
             newObjects = new List<GameObject>();
             deleteObjects = new List<GameObject>();
-            gameObjects.Add(new Tower(new Vector2(800, 10)));
+            gameObjects.Add(new Tower(new Vector2(800, -10)));
+
 
             //path liste, ved ikke om den skal beholdes her
-            path.Add(new Vector2(1260, 80));
-            path.Add(new Vector2(120, 80));
-            path.Add(new Vector2(120, 330));
-            path.Add(new Vector2(1140, 330));
-            path.Add(new Vector2(1140, 525));
-            path.Add(new Vector2(45, 525));
+            path.Add(new Vector2(1260, 70));
+            path.Add(new Vector2(130, 70));
+            path.Add(new Vector2(130, 320));
+            path.Add(new Vector2(1130, 320));
+            path.Add(new Vector2(1130, 515));
+            path.Add(new Vector2(45, 515));
 
             _graphics.PreferredBackBufferHeight = 720;
             _graphics.PreferredBackBufferWidth = 1280;
@@ -95,6 +98,11 @@ namespace DuckDefense
             collisionTexture = Content.Load<Texture2D>("CollisionTexture ");
             towerPlaceSprite = Content.Load<Texture2D>("SpritePlaceHolder1");
             waveCountDown = Content.Load<SpriteFont>("waveCountDown");
+            font = Content.Load<SpriteFont>("Font");
+            backgroundMusic = Content.Load<Song>("Banjo_bois_sample");
+            MediaPlayer.Play(backgroundMusic);
+            MediaPlayer.IsRepeating = true;
+
 
             foreach (GameObject go in gameObjects)
             {
@@ -117,7 +125,7 @@ namespace DuckDefense
                 AddTower();
                 TowerTarget();
                 PlayerDamage();
-                
+               
 
             }
    
@@ -132,10 +140,7 @@ namespace DuckDefense
             _spriteBatch.Begin();
             _spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
             _spriteBatch.Draw(towerPlaceSprite, new Vector2(mState.Position.X - 22, mState.Position.Y - 20), Color.Red);
-            _spriteBatch.Draw(towerPlaceSprite, new Vector2(mState.Position.X - 220, mState.Position.Y - 220), Color.Red);
-            _spriteBatch.Draw(towerPlaceSprite, new Vector2(mState.Position.X + 220, mState.Position.Y - 220), Color.Red);
-            _spriteBatch.Draw(towerPlaceSprite, new Vector2(mState.Position.X - 220, mState.Position.Y + 220), Color.Red);
-            _spriteBatch.Draw(towerPlaceSprite, new Vector2(mState.Position.X + 220, mState.Position.Y + 220), Color.Red);
+            ToolTip();
 
             InterfaceInfo();
 
@@ -150,6 +155,11 @@ namespace DuckDefense
                     //den er her kun for at se at der ikke er towers vi ikke kan se
                     string currentPlacedTowers = currentTowers.ToString();
                     _spriteBatch.DrawString(waveCountDown, currentPlacedTowers, new Vector2(500, 500), Color.Red);
+                    //cused range check debugger
+                    _spriteBatch.Draw(towerPlaceSprite, new Vector2(mState.Position.X - 220, mState.Position.Y - 220), Color.Red);
+                    _spriteBatch.Draw(towerPlaceSprite, new Vector2(mState.Position.X + 220, mState.Position.Y - 220), Color.Red);
+                    _spriteBatch.Draw(towerPlaceSprite, new Vector2(mState.Position.X - 220, mState.Position.Y + 220), Color.Red);
+                    _spriteBatch.Draw(towerPlaceSprite, new Vector2(mState.Position.X + 220, mState.Position.Y + 220), Color.Red);
 #endif
 
                 }
@@ -175,6 +185,28 @@ namespace DuckDefense
         }
 
         /// <summary>
+        /// Provides info to the player about the "UI" and options
+        /// </summary>
+        public void ToolTip()
+        {
+            
+            if (Keyboard.GetState().IsKeyDown(Keys.Tab))
+            {
+                string toolTips = "Use left click to place down a tower with slower fire rate but low cost (5)\n" +
+                    "Use right click to place down a tower with faster fire rate but higher cost (10)\n" +
+                    "Your Currency is shown by the yellow number in the top left\n" +
+                    "Your Health is the red number in the bottom left, if it reaches 0 you die\n" +
+                    "If you place a tower on the enemy path, they will despawn it and you won't get a refunt.";
+
+                _spriteBatch.DrawString(font, toolTips, new Vector2(mousePosition.X + 40, mousePosition.Y), Color.Black);
+
+
+            }
+
+        }
+
+
+        /// <summary>
         /// Shows player balance and health on screen
         /// </summary>
         /// <param name="gameTime"></param>
@@ -182,19 +214,24 @@ namespace DuckDefense
         {
             string currency = playerBalance.ToString();
             _spriteBatch.DrawString(waveCountDown, currency, new Vector2(0, 50), Color.Yellow);
+
             string health = playerHealth.ToString();
             _spriteBatch.DrawString(waveCountDown, health, new Vector2(0, 675), Color.Red);
+
+            string hitTab = "Hold down Tab to see ToolTips";
+            _spriteBatch.DrawString(font, hitTab, new Vector2(1000, 700), Color.Black);
+            
+
+
             string currentgameScore = Math.Floor(gameScore).ToString();
             string currentGameScoreDisplay = $"Score {currentgameScore}";
             _spriteBatch.DrawString(waveCountDown, currentGameScoreDisplay, new Vector2(0, 0), Color.White);
+
             if (waveInProgress == false)
             {
                 string waveTimerSec = Math.Floor(waveTimer).ToString();
-                // sårn der ikke er en masse decimaler efter
                 string wavePauseMessage = $"You hear a faint quacking noise.. {waveTimerSec}";
-                //det beskeden vi bruger når der ikke er en wave igang
                 Vector2 sizeOfPauseMessage = waveCountDown.MeasureString(wavePauseMessage);
-                // vi bruger en vector2 her til at måle størrelsen på vores string "wavePauseMessage" når den er skrevet med fonten "waveCountDown"
                 _spriteBatch.DrawString(waveCountDown, wavePauseMessage, new Vector2(200, 300), Color.Black);
             }
 
@@ -330,10 +367,10 @@ namespace DuckDefense
         
 
         /// <summary>
-        /// Adds a tower on Left or Right mouseclick
+        /// Adds a tower on Left or Right mouseclick, and Despawns if a tower is already placed at that location
         /// </summary>
         public void AddTower()
-        {//TODO gør så at man ikke kan placere towers oven på hinanden
+        {
            
             if (mState.LeftButton == ButtonState.Pressed && mLeftReleased == true && playerBalance >= 5)
             {

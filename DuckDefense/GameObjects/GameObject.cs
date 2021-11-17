@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
+
 
 namespace DuckDefense
 {
@@ -17,15 +17,12 @@ namespace DuckDefense
         protected Texture2D[] sprites;
         protected Texture2D sprite;
 
-
-
         protected float fps;
         protected float speed;
         protected int moveIndex = 1;
         private float timeElapsed;
         private int currentIndex;
         protected int currency = 5;
-
         protected int health;
         private bool isAlive;
 
@@ -38,13 +35,16 @@ namespace DuckDefense
 
         }
 
+        /// <summary>
+        /// Rectangle used to define the sprites edges for collisions
+        /// </summary>
         public Rectangle Collision
         {
             get
             {
                 return new Rectangle(
-                    (int)(position.X + offset.X),
-                    (int)(position.Y + offset.Y),
+                    (int)(position.X ),
+                    (int)(position.Y ),
                     sprite.Width,
                     sprite.Height
                     );

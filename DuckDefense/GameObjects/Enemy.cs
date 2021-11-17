@@ -2,9 +2,7 @@
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace DuckDefense
 {
@@ -79,6 +77,10 @@ namespace DuckDefense
         public override void OnCollision(GameObject other)
         {
 
+            if (other is Tower)
+            {
+                GameWorld.Despawn(other);
+            }
         }
 
 

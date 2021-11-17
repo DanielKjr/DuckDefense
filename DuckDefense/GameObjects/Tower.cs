@@ -1,11 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System.Linq;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework.Input;
+
 
 namespace DuckDefense
 {
@@ -27,7 +23,6 @@ namespace DuckDefense
         {
             //hvis man ikke laver this.attackSpeed så prøver den at tage sprites fra sprites[] listen af en eller anden grund 
             this.attackSpeed = attackSpeed;
-            offset = Vector2.Zero;
             color = Color.Cyan;
             origin = Vector2.Zero;
             Position = mousePosition;
@@ -37,7 +32,6 @@ namespace DuckDefense
         public Tower(Vector2 mousePosition)
         {
             attackSpeed = 1f;
-            offset = Vector2.Zero;
             color = Color.White;
             origin = Vector2.Zero;
             Position = mousePosition;
