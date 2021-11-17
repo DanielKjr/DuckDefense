@@ -34,7 +34,7 @@ namespace DuckDefense
 
 
         private double spawnTimer = 1.2D;
-        private double waveTimer = 0.5D;
+        private double waveTimer = 6D;
         private double maxSpawnTimer = 1.2D;
         private double waveCount = -0.1;
         private double gameScore = 0;
@@ -232,7 +232,7 @@ namespace DuckDefense
                 string waveTimerSec = Math.Floor(waveTimer).ToString();
                 string wavePauseMessage = $"You hear a faint quacking noise.. {waveTimerSec}";
                 Vector2 sizeOfPauseMessage = waveCountDown.MeasureString(wavePauseMessage);
-                _spriteBatch.DrawString(waveCountDown, wavePauseMessage, new Vector2(200, 300), Color.Black);
+                _spriteBatch.DrawString(waveCountDown, wavePauseMessage, new Vector2(200, 270), Color.Black);
             }
 
         }
