@@ -423,10 +423,14 @@ namespace DuckDefense
                 }
 
                 if (towerBlocked == false)
-                currentTowers++;
-                mRightReleased = false;
-                AddGameObject(new Tower(mousePosition, 1.5f));
-                playerBalance -= 10;
+                {
+                    currentTowers++;
+                    mRightReleased = false;
+                    AddGameObject(new Tower(mousePosition, 1.5f));
+                    playerBalance -= 10;
+
+                }
+              
             }
             if (mState.RightButton == ButtonState.Released)
             {
