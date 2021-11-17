@@ -196,7 +196,7 @@ namespace DuckDefense
                     "Use right click to place down a tower with faster fire rate but higher cost (10)\n" +
                     "Your Currency is shown by the yellow number in the top left\n" +
                     "Your Health is the red number in the bottom left, if it reaches 0 you die\n" +
-                    "If you place a tower on the enemy path, they will despawn it and you won't get a refunt.";
+                    "If you place a tower on the enemy path, they will despawn it and you won't get a refund.";
 
                 _spriteBatch.DrawString(font, toolTips, new Vector2(mousePosition.X + 40, mousePosition.Y), Color.Black);
 
