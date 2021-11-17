@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
+
 
 namespace DuckDefense
 {
@@ -16,11 +16,9 @@ namespace DuckDefense
             this.sprite = sprite;
             Position = position;
             this.enemyPosition = new Vector2(enemyPosition.X + 20 , enemyPosition.Y + 20);
-
             speed = 1400;
             color = Color.White;
-           
-
+          
         }
 
 
@@ -49,7 +47,7 @@ namespace DuckDefense
         }
 
         /// <summary>
-        /// Targeting function
+        /// Targeting function, works similarly to Move by taking the enemyPosition minus its own position.
         /// </summary>
         /// <param name="gameTime"></param>
         /// <param name="enemyPosition"></param>
