@@ -17,6 +17,7 @@ namespace DuckDefense
         private Texture2D towerPlaceSprite;
         private Texture2D background;
         private Texture2D collisionTexture;
+        private Texture2D bread;
         private SpriteFont waveCountDown;
         private SpriteFont font;
         private Song backgroundMusic;
@@ -97,6 +98,7 @@ namespace DuckDefense
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             collisionTexture = Content.Load<Texture2D>("CollisionTexture ");
             towerPlaceSprite = Content.Load<Texture2D>("SpritePlaceHolder1");
+            bread = Content.Load<Texture2D>("Bread");
             waveCountDown = Content.Load<SpriteFont>("waveCountDown");
             font = Content.Load<SpriteFont>("Font");
             backgroundMusic = Content.Load<Song>("Banjo_bois_sample");
@@ -140,6 +142,7 @@ namespace DuckDefense
             _spriteBatch.Begin();
             _spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
             _spriteBatch.Draw(towerPlaceSprite, new Vector2(mState.Position.X - 22, mState.Position.Y - 20), Color.Red);
+            _spriteBatch.Draw(bread, new Vector2(55, 525), Color.White);
             ToolTip();
 
             InterfaceInfo();
@@ -195,7 +198,7 @@ namespace DuckDefense
                 string toolTips = "Use left click to place down a tower with slower fire rate but low cost (5)\n" +
                     "Use right click to place down a tower with faster fire rate but higher cost (10)\n" +
                     "Your Currency is shown by the yellow number in the top left\n" +
-                    "Your Health is the red number in the bottom left, if it reaches 0 you die\n" +
+                    "Your Health is the red number in the bottom left,if the ducks reach the bread you take damage, if it reaches 0 you die\n" +
                     "If you place a tower on the enemy path, they will despawn it and you won't get a refund.";
 
                 _spriteBatch.DrawString(font, toolTips, new Vector2(mousePosition.X + 40, mousePosition.Y), Color.Black);
@@ -207,7 +210,7 @@ namespace DuckDefense
 
 
         /// <summary>
-        /// Shows player balance and health on screen
+        /// Shows info about the player health, currency, score, has wavetimer and tooltip hint
         /// </summary>
         /// <param name="gameTime"></param>
         public void InterfaceInfo()
@@ -219,8 +222,7 @@ namespace DuckDefense
             _spriteBatch.DrawString(waveCountDown, health, new Vector2(0, 675), Color.Red);
 
             string hitTab = "Hold down Tab to see ToolTips";
-            _spriteBatch.DrawString(font, hitTab, new Vector2(1000, 700), Color.Black);
-            
+            _spriteBatch.DrawString(font, hitTab, new Vector2(1000, 700), Color.Black);          
 
 
             string currentgameScore = Math.Floor(gameScore).ToString();
