@@ -40,7 +40,7 @@ namespace DuckDefense
         private double waveCount = -0.1;
         private double gameScore = 0;
         int spawnedEnemies = 0;
-        int maxSpawnedEnemies = 20;
+        private int maxSpawnedEnemies = 10;
         bool waveInProgress = false;
 
         private int playerBalance = 5;
@@ -326,9 +326,9 @@ namespace DuckDefense
                     {
                         maxSpawnTimer -= 0.12;
                     }
-                    if (maxSpawnedEnemies >= 50)
+                    if (maxSpawnedEnemies <= 250)
                     {
-                        maxSpawnedEnemies += 5;
+                        maxSpawnedEnemies += 6;
                     }
                     spawnedEnemies = 0;
                 }
